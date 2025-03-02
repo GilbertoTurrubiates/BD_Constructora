@@ -69,14 +69,65 @@ DELIMITER ;
 
 
 CREATE TABLE clientes (
-	nombre VARCHAR(50) NOT NULL,
-	apellidoP VARCHAR(50) NOT NULL,
-	apellidoM VARCHAR(50) NOT NULL,
-	rfcCliente VARCHAR(13) NOT NULL,
-	telefonoCliente VARCHAR(10) NOT NULL,
-	clientePotencial BOOLEAN DEFAULT TRUE,
-	clienteContratado BOOLEAN DEFAULT TRUE
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellidoP VARCHAR(50) NOT NULL,
+    apellidoM VARCHAR(50) NOT NULL,
+    rfcCliente VARCHAR(13) NOT NULL UNIQUE,
+    telefonoCliente VARCHAR(10) NOT NULL,
+    clientePotencial BOOLEAN DEFAULT TRUE,
+    clienteContratado BOOLEAN DEFAULT TRUE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+DELIMITER $$
+
+-- Procedimiento para agregar un cliente
+CREATE PROCEDURE AgregarCliente(
+    IN p_nombre VARCHAR(50),
+    IN p_apellidoP VARCHAR(50),
+    IN p_apellidoM VARCHAR(50),
+    IN p_rfcCliente VARCHAR(13),
+    IN p_telefonoCliente VARCHAR(10),
+    IN p_clientePotencial BOOLEAN,
+    IN p_clienteContratado BOOLEAN
+)
+BEGIN
+    INSERT INTO clientes (nombre, apellidoP, apellidoM, rfcCliente, telefonoCliente, clientePotencial, clienteContratado)
+    VALUES (p_nombre, p_apellidoP, p_apellidoM, p_rfcCliente, p_telefonoCliente, p_clientePotencial, p_clienteContratado);
+END$$
+
+-- Procedimiento para modificar un cliente
+CREATE PROCEDURE ModificarCliente(
+    IN p_id_cliente INT,
+    IN p_nombre VARCHAR(50),
+    IN p_apellidoP VARCHAR(50),
+    IN p_apellidoM VARCHAR(50),
+    IN p_rfcCliente VARCHAR(13),
+    IN p_telefonoCliente VARCHAR(10),
+    IN p_clientePotencial BOOLEAN,
+    IN p_clienteContratado BOOLEAN
+)
+BEGIN
+    UPDATE clientes 
+    SET nombre = p_nombre,
+        apellidoP = p_apellidoP,
+        apellidoM = p_apellidoM,
+        rfcCliente = p_rfcCliente,
+        telefonoCliente = p_telefonoCliente,
+        clientePotencial = p_clientePotencial,
+        clienteContratado = p_clienteContratado
+    WHERE id_cliente = p_id_cliente;
+END$$
+
+-- Procedimiento para eliminar un cliente (soft delete)
+CREATE PROCEDURE EliminarCliente(IN p_id_cliente INT)
+BEGIN
+    UPDATE clientes SET clientePotencial = FALSE, clienteContratado = FALSE WHERE id_cliente = p_id_cliente;
+END$$
+
+DELIMITER ;
+
 
 CREATE TABLE proyectos (
 nombreProyecto VARCHAR(60) NOT NULL,
