@@ -12,7 +12,6 @@ CREATE TABLE usuarios (
     contraseña VARCHAR(255) NOT NULL,
     telefono VARCHAR(10) NULL,
     rol ENUM('Supervisor', 'Proveedor') NOT NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     activo BOOLEAN DEFAULT TRUE
 );
 
@@ -76,8 +75,7 @@ CREATE TABLE clientes (
     rfcCliente VARCHAR(13) NOT NULL UNIQUE,
     telefonoCliente VARCHAR(10) NOT NULL,
     clientePotencial BOOLEAN DEFAULT TRUE,
-    clienteContratado BOOLEAN DEFAULT TRUE,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    clienteContratado BOOLEAN DEFAULT TRUE
 );
 
 DELIMITER $$
