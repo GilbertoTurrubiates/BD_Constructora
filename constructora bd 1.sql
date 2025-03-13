@@ -48,7 +48,7 @@ BEGIN
        OR rol LIKE CONCAT('%', filtro, '%');
 END $$
 
-DELIMITER ;
+DELIMITER $$
 
 -- Procedimiento para modificar un usuario
 CREATE PROCEDURE ModificarUsuario(
@@ -76,13 +76,14 @@ BEGIN
 END$$
 
 -- Procedimiento para eliminar un usuario (soft delete)
+DELIMITER $$
+
 CREATE PROCEDURE EliminarUsuario(IN p_id_usuario INT)
 BEGIN
     UPDATE usuarios SET activo = FALSE WHERE id_usuario = p_id_usuario;
 END$$
 
 DELIMITER ;
-
 
 CREATE TABLE clientes (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
@@ -94,8 +95,6 @@ CREATE TABLE clientes (
     clientePotencial BOOLEAN DEFAULT TRUE,
     clienteContratado BOOLEAN DEFAULT TRUE
 );
-CREATE DATABASE `constructora` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-
 
 DELIMITER $$
 
@@ -143,11 +142,12 @@ BEGIN
     UPDATE clientes SET clientePotencial = FALSE, clienteContratado = FALSE WHERE id_cliente = p_id_cliente;
 END$$
 
-DELIMITER ;
-
+DELIMITER $$
 
 CREATE TABLE proyectos (
-nombreProyecto VARCHAR(60) NOT NULL,
-ubicacion VARCHAR(100) NOT NULL,
-proveedorResponsable VARCHAR (50) NOT NULL
+    nombreProyecto VARCHAR(60) NOT NULL,
+    ubicacion VARCHAR(100) NOT NULL,
+    proveedorResponsable VARCHAR(50) NOT NULL
 );
+
+DELIMITER ;
