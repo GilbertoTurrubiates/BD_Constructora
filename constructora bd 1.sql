@@ -33,6 +33,23 @@ BEGIN
     VALUES (p_nombre, p_apellidoP, p_apellidoM, p_correoPersonal, p_correoTrabajo, p_contraseña, p_telefono, p_rol);
 END$$
 
+DELIMITER $$
+
+CREATE PROCEDURE BuscarUsuarios(IN filtro VARCHAR(100))
+BEGIN
+    SELECT id_usuario, nombre, apellidoP, apellidoM, correoPersonal, correoTrabajo, telefono, rol, activo
+    FROM usuarios
+    WHERE nombre LIKE CONCAT('%', filtro, '%')
+       OR apellidoP LIKE CONCAT('%', filtro, '%')
+       OR apellidoM LIKE CONCAT('%', filtro, '%')
+       OR correoPersonal LIKE CONCAT('%', filtro, '%')
+       OR correoTrabajo LIKE CONCAT('%', filtro, '%')
+       OR telefono LIKE CONCAT('%', filtro, '%')
+       OR rol LIKE CONCAT('%', filtro, '%');
+END $$
+
+DELIMITER ;
+
 -- Procedimiento para modificar un usuario
 CREATE PROCEDURE ModificarUsuario(
     IN p_id_usuario INT,
@@ -77,6 +94,8 @@ CREATE TABLE clientes (
     clientePotencial BOOLEAN DEFAULT TRUE,
     clienteContratado BOOLEAN DEFAULT TRUE
 );
+CREATE DATABASE `constructora` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
 
 DELIMITER $$
 
