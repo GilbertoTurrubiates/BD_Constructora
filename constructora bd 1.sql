@@ -144,10 +144,47 @@ END$$
 
 DELIMITER $$
 
+-- Tabla actualizada de proyectos
 CREATE TABLE proyectos (
     nombreProyecto VARCHAR(60) NOT NULL,
     ubicacion VARCHAR(100) NOT NULL,
-    proveedorResponsable VARCHAR(50) NOT NULL
+    proveedorResponsable VARCHAR(50) NOT NULL,
+    dimensiones VARCHAR(50) NOT NULL
 );
+
+-- Procedimiento para agregar un proyecto
+CREATE PROCEDURE agregar_proyecto(
+    IN p_nombreProyecto VARCHAR(60),
+    IN p_ubicacion VARCHAR(100),
+    IN p_proveedorResponsable VARCHAR(50),
+    IN p_dimensiones VARCHAR(50)
+)
+BEGIN
+    INSERT INTO proyectos (nombreProyecto, ubicacion, proveedorResponsable, dimensiones)
+    VALUES (p_nombreProyecto, p_ubicacion, p_proveedorResponsable, p_dimensiones);
+END$$
+
+-- Procedimiento para modificar un proyecto
+CREATE PROCEDURE modificar_proyecto(
+    IN p_nombreProyecto VARCHAR(60),
+    IN p_nuevaUbicacion VARCHAR(100),
+    IN p_nuevoProveedorResponsable VARCHAR(50),
+    IN p_nuevasDimensiones VARCHAR(50)
+)
+BEGIN
+    UPDATE proyectos
+    SET ubicacion = p_nuevaUbicacion,
+        proveedorResponsable = p_nuevoProveedorResponsable,
+        dimensiones = p_nuevasDimensiones
+    WHERE nombreProyecto = p_nombreProyecto;
+END$$
+
+-- Procedimiento para eliminar un proyecto
+CREATE PROCEDURE eliminar_proyecto(
+    IN p_nombreProyecto VARCHAR(60)
+)
+BEGIN
+    DELETE FROM proyectos WHERE nombreProyecto = p_nombreProyecto;
+END$$
 
 DELIMITER ;
